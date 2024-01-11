@@ -9,12 +9,12 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity(name="financial_transfer")
-@Table(name="financial_transfer")
+@Entity(name = "financial_transfer")
+@Table(name = "financial_transfer")
 @Getter
 @Setter
 @AllArgsConstructor
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 public class FinancialTransfer {
 
     @Id
@@ -32,6 +32,5 @@ public class FinancialTransfer {
     private LocalDateTime transferDate;
 
     private LocalDateTime scheduledDate;
-
 
 }
