@@ -1,17 +1,16 @@
 package com.schedulebackend.service;
 
 import com.schedulebackend.domain.FinancialTransfer;
+import com.schedulebackend.dto.FinancialTransferDTO;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public interface FinancialTransferService {
 
-    public BigDecimal feeCalculationA(FinancialTransfer financialTransfer);
+    List<FinancialTransfer> getAllFinancialTransfer();
 
-    public BigDecimal feeCalculationB(FinancialTransfer financialTransfer);
+    public FinancialTransfer createFinancialTransfer(FinancialTransferDTO financialTransferDTO);
 
-    public BigDecimal feeCalculationC(FinancialTransfer financialTransfer);
-
-    public BigDecimal feeCalculationD(FinancialTransfer financialTransfer);
+    public void saveFinancialTransfer(FinancialTransfer financialTransfer);
 
 }

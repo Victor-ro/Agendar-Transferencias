@@ -1,10 +1,8 @@
 package com.schedulebackend.domain;
 
+import com.schedulebackend.dto.FinancialTransferDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -14,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class FinancialTransfer {
 
@@ -32,5 +31,14 @@ public class FinancialTransfer {
     private LocalDateTime transferDate;
 
     private LocalDateTime scheduledDate;
+
+    public FinancialTransfer(FinancialTransferDTO financialTransferDTO) {
+        this.originAccount = financialTransferDTO.originAccount();
+        this.destinationAccount = financialTransferDTO.destinationAccount();
+        this.transferAmount = financialTransferDTO.transferAmount();
+        this.fee = financialTransferDTO.fee();
+        this.transferDate = financialTransferDTO.transferDate();
+        this.scheduledDate = LocalDateTime.now();
+    }
 
 }
