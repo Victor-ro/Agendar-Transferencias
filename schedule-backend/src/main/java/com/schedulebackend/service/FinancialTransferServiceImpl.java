@@ -29,6 +29,9 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
         FinancialTransfer financialTransfer = new FinancialTransfer(financialTransferDTO);
         BigDecimal newFee = feeCalculateService.feeCalculationD(financialTransfer);
         financialTransfer.setFee(newFee);
+        BigDecimal originalValue = financialTransfer.getTransferAmount();
+        BigDecimal resultAfterFee = originalValue.subtract(financialTransfer.getFee());
+        financialTransfer.setTransferAmount(resultAfterFee);
         saveFinancialTransfer(financialTransfer);
         return financialTransfer;
     }
