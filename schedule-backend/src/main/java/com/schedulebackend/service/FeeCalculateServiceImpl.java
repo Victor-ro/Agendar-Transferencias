@@ -14,8 +14,19 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
 
     @Override
     public BigDecimal feeCalculationA(FinancialTransfer financialTransfer) {
-        System.out.println("O valor é até 1000");
-        return null;
+
+        BigDecimal feeThree = new BigDecimal("3");
+
+        BigDecimal originalValue = financialTransfer.getTransferAmount();
+
+        BigDecimal threePercent = originalValue.multiply(new BigDecimal("0.03"));
+
+        BigDecimal resultAfterPercent = originalValue.subtract(threePercent);
+
+        BigDecimal resultAfterFee = resultAfterPercent.subtract(feeThree);
+
+        return originalValue.subtract(resultAfterFee);
+
     }
 
     @Override
@@ -35,12 +46,14 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
 
         if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("1000")) <= 0) {
             return feeCalculationA(financialTransfer);
-        } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("2000")) <= 0) {
+        } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("1001")) > 0
+                && financialTransfer.getTransferAmount().compareTo(new BigDecimal("2000")) <= 0) {
             return feeCalculationB(financialTransfer);
         } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("2000")) > 0) {
             return feeCalculationC(financialTransfer);
+        } else {
+            System.out.println("Erro: Valor de transferência inválido");
+            return new BigDecimal("0");
         }
-
-        return null;
     }
 }

@@ -16,6 +16,9 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
     @Autowired
     private FinancialTransferRepository financialTransferRepository;
 
+    @Autowired
+    private FeeCalculateService feeCalculateService;
+
     @Override
     public List<FinancialTransfer> getAllFinancialTransfer() {
         return financialTransferRepository.findAll();
@@ -24,13 +27,14 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
     @Override
     public FinancialTransfer createFinancialTransfer(FinancialTransferDTO financialTransferDTO) {
         FinancialTransfer financialTransfer = new FinancialTransfer(financialTransferDTO);
-        financialTransfer.setFee(new BigDecimal("123.456"));
+        BigDecimal newFee = feeCalculateService.feeCalculationD(financialTransfer);
+        financialTransfer.setFee(newFee);
         saveFinancialTransfer(financialTransfer);
         return financialTransfer;
     }
 
     @Override
-    public void saveFinancialTransfer(FinancialTransfer financialTransfer){
+    public void saveFinancialTransfer(FinancialTransfer financialTransfer) {
         financialTransferRepository.save(financialTransfer);
     }
 }
