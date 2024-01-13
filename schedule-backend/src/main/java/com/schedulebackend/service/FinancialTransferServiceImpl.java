@@ -20,7 +20,7 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
     private FeeCalculateService feeCalculateService;
 
     @Override
-    public List<FinancialTransfer> getAllFinancialTransfer() {
+    public List<FinancialTransfer> getAllFinancialsTransfers() {
         return financialTransferRepository.findAll();
     }
 

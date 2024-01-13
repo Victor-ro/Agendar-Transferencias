@@ -25,7 +25,7 @@ public class FinancialTransferController {
 
     @GetMapping
     public ResponseEntity<List<FinancialTransfer>> getAllFinancialTransfer() {
-        List<FinancialTransfer> financialTransfers = financialTransferService.getAllFinancialTransfer();
+        List<FinancialTransfer> financialTransfers = financialTransferService.getAllFinancialsTransfers();
         return new ResponseEntity<>(financialTransfers, HttpStatus.OK);
     }
 }

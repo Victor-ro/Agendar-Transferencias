@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FinancialTransferService {
 
-    List<FinancialTransfer> getAllFinancialTransfer();
+    List<FinancialTransfer> getAllFinancialsTransfers();
 
     public FinancialTransfer createFinancialTransfer(FinancialTransferDTO financialTransferDTO);
 
