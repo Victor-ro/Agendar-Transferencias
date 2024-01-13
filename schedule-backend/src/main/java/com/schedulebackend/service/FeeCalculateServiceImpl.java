@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -57,6 +58,7 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
         } else if (daysDifference > 10) {
             return financialTransfer.getTransferAmount().multiply(new BigDecimal("0.082"));
         } else {
+            System.out.println("Aviso: Não há taxa");
             return BigDecimal.ZERO;
         }
     }
@@ -66,7 +68,7 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
 
         if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("1000")) <= 0) {
             return feeCalculationA(financialTransfer);
-        } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("1001")) > 0
+        } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("1001")) >= 0
                 && financialTransfer.getTransferAmount().compareTo(new BigDecimal("2000")) <= 0) {
             return feeCalculationB(financialTransfer);
         } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("2000")) > 0) {
@@ -74,6 +76,25 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
         } else {
             System.out.println("Erro: Valor de transferência inválido");
             return new BigDecimal("0");
+        }
+    }
+
+    @Override
+    public BigDecimal feeCalculationByDate(FinancialTransfer financialTransfer) {
+
+        LocalDate transferDate = financialTransfer.getTransferDate().toLocalDate();
+        LocalDate scheduledDate = financialTransfer.getScheduledDate().toLocalDate();
+
+        if (transferDate.isEqual(scheduledDate)) {
+            return feeCalculationA(financialTransfer);
+        } else {
+            long daysDifference = ChronoUnit.DAYS.between(scheduledDate, transferDate);
+
+            if (daysDifference > 10) {
+                return feeCalculationC(financialTransfer);
+            } else {
+                return feeCalculationB(financialTransfer);
+            }
         }
     }
 }

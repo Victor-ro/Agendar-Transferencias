@@ -14,4 +14,6 @@ public interface FeeCalculateService {
 
     public BigDecimal feeCalculationD(FinancialTransfer financialTransfer);
 
+    public BigDecimal feeCalculationByDate(FinancialTransfer financialTransfer);
+
 }

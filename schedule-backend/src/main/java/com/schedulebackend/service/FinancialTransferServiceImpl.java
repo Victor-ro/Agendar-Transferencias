@@ -27,7 +27,9 @@ public class FinancialTransferServiceImpl implements FinancialTransferService {
     @Override
     public FinancialTransfer createFinancialTransfer(FinancialTransferDTO financialTransferDTO) {
         FinancialTransfer financialTransfer = new FinancialTransfer(financialTransferDTO);
-        BigDecimal newFee = feeCalculateService.feeCalculationD(financialTransfer);
+        BigDecimal feeByValueTransfer = feeCalculateService.feeCalculationD(financialTransfer);
+        BigDecimal feeByDateTransfer = feeCalculateService.feeCalculationByDate(financialTransfer);
+        BigDecimal newFee = feeByValueTransfer.add(feeByDateTransfer);
         financialTransfer.setFee(newFee);
         BigDecimal originalValue = financialTransfer.getTransferAmount();
         BigDecimal resultAfterFee = originalValue.subtract(financialTransfer.getFee());
