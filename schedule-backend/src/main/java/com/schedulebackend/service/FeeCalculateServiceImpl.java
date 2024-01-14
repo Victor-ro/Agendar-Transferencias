@@ -1,8 +1,6 @@
 package com.schedulebackend.service;
 
 import com.schedulebackend.domain.FinancialTransfer;
-import com.schedulebackend.repository.FinancialTransferRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,8 +12,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Service
 public class FeeCalculateServiceImpl implements FeeCalculateService {
 
-    @Autowired
-    private FinancialTransferRepository financialRepository;
 
     @Override
     public BigDecimal feeCalculationA(FinancialTransfer financialTransfer) {
@@ -58,7 +54,7 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
         } else if (daysDifference > 10) {
             return financialTransfer.getTransferAmount().multiply(new BigDecimal("0.082"));
         } else {
-            System.out.println("Aviso: Não há taxa");
+            System.out.println("Erro: Não há taxa aplicável");
             return BigDecimal.ZERO;
         }
     }
@@ -74,8 +70,8 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
         } else if (financialTransfer.getTransferAmount().compareTo(new BigDecimal("2000")) > 0) {
             return feeCalculationC(financialTransfer);
         } else {
-            System.out.println("Erro: Valor de transferência inválido");
-            return new BigDecimal("0");
+            System.out.println("Erro: Não há taxa aplicável");
+            return BigDecimal.ZERO;
         }
     }
 

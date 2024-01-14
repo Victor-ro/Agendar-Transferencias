@@ -20,8 +20,15 @@ public class FinancialTransferController {
 
     @PostMapping
     public ResponseEntity<FinancialTransfer> createFinancialTransfer(@RequestBody FinancialTransferDTO financialTransferDTO) {
-        FinancialTransfer financialTransfer = financialTransferService.createFinancialTransfer(financialTransferDTO);
-        return new ResponseEntity<>(financialTransfer, HttpStatus.CREATED);
+
+        try {
+            FinancialTransfer financialTransfer = financialTransferService.createFinancialTransfer(financialTransferDTO);
+            return new ResponseEntity<>(financialTransfer, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException("Ocorreu um erro ao processar a transferência financeira", e);
+        }
+
+
     }
 
     @GetMapping
