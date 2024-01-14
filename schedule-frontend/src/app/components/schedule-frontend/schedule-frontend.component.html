@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <form (ngSubmit)="submit()" [formGroup]="scheduleForm" #formDir="ngForm">
+  <form (ngSubmit)="removeMaskAndSubmit()" [formGroup]="scheduleForm" #formDir="ngForm">
     <div class="container p-5">
       <div class="d-flex justify-content-between">
         <h4 class="display-6">Agendar uma nova transferência</h4>
@@ -35,7 +35,7 @@
               'is-invalid':
                 submitted && scheduleForm.controls.originAccount.errors
             }"
-            placeholder="Formato XXXXXX"
+            placeholder="Ex: 123456"
           />
           <div
             *ngIf="submitted && scheduleForm.controls.originAccount.errors"
@@ -51,11 +51,18 @@
             <div
               *ngIf="
                 submitted &&
-                scheduleForm.get('originAccount')?.hasError('invalidAccount')
+                scheduleForm.controls.originAccount.errors.invalidAccount
               "
             >
-              Insira exatamente 6 caracteres de 1 a 9 ( Zeros à esquerda são
+              Insira exatamente 6 caracteres de 1 a 9 ( Zeros à esquerda serão
               ignorados )
+            </div>
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.originAccount.errors.pattern
+              "
+            >
+              Deve conter apenas números.
             </div>
           </div>
         </div>
@@ -69,7 +76,7 @@
               'is-invalid':
                 submitted && scheduleForm.controls.destinationAccount.errors
             }"
-            placeholder="Formato XXXXXX"
+            placeholder="Ex: 654321"
           />
           <div
             *ngIf="submitted && scheduleForm.controls.destinationAccount.errors"
@@ -86,27 +93,34 @@
             <div
               *ngIf="
                 submitted &&
-                scheduleForm
-                  .get('destinationAccount')
-                  ?.hasError('invalidAccount')
+                scheduleForm.controls.destinationAccount.errors.invalidAccount
               "
             >
-              Insira exatamente 6 caracteres de 1 a 9 ( Zeros à esquerda são
+              Insira exatamente 6 caracteres de 1 a 9 ( Zeros à esquerda serão
               ignorados )
+            </div>
+            <div
+              *ngIf="
+                submitted &&
+                scheduleForm.controls.destinationAccount.errors.pattern
+              "
+            >
+              Deve conter apenas números.
             </div>
           </div>
         </div>
         <div class="col-6">
           <label class="form-label">Valor da transferência</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
             formControlName="transferAmount"
+            (input)="formatCurrency($event)"
             [ngClass]="{
               'is-invalid':
                 submitted && scheduleForm.controls.transferAmount.errors
             }"
-            placeholder="Ex: 1000"
+            placeholder="$0.00"
           />
           <div
             *ngIf="submitted && scheduleForm.controls.transferAmount.errors"
@@ -120,6 +134,14 @@
             >
               O valor da transferência é obrigatório
             </div>
+            <div
+            *ngIf="
+              submitted &&
+              scheduleForm.controls.transferAmount.errors.min
+            "
+          >
+            O valor da transferência não pode ser zero
+          </div>
           </div>
         </div>
         <div class="col-6">
@@ -144,6 +166,11 @@
               "
             >
               A data de transferência é obrigatória
+            </div>
+            <div
+              *ngIf="scheduleForm.get('transferDate')?.hasError('invalidDate')"
+            >
+              A data de transferência não pode ser anterior à data atual.
             </div>
           </div>
         </div>

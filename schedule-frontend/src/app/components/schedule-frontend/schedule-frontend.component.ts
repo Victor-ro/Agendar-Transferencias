@@ -40,13 +40,45 @@ export class ScheduleFrontendComponent implements OnInit {
     return isValidFormat ? null : { invalidAccount: true };
   }
 
+  dateValidator(control: FormControl) {
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+
+    selectedDate.setDate(selectedDate.getDate() + 1);
+
+    if (selectedDate < currentDate) {
+      return { 'invalidDate': true };
+    }
+
+    return null;
+  }
+
   createForm() {
     this.scheduleForm = this.fb.group({
-      originAccount: ['', [Validators.required, this.accountValidatorNumbers]],
-      destinationAccount: ['', [Validators.required, this.accountValidatorNumbers]],
-      transferAmount: ['', [Validators.required]],
-      transferDate: ['', [Validators.required]],
+      originAccount: ['', [Validators.required, this.accountValidatorNumbers, Validators.pattern(/^[0-9]+$/)]],
+      destinationAccount: ['', [Validators.required, this.accountValidatorNumbers, Validators.pattern(/^[0-9]+$/)]],
+      transferAmount: ['', [Validators.required, Validators.min(0.000001)]],
+      transferDate: ['', [Validators.required, this.dateValidator]],
     });
+  }
+
+  formatCurrency(event: any): void {
+    const input = event.target;
+    const value = input.value.replace(/\D/g, '');
+    const formattedValue = (+value / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    input.value = formattedValue;
+  }
+
+  removeMaskAndSubmit() {
+    const transferAmountControl = this.scheduleForm.get('transferAmount');
+
+    const unmaskedValue = String(transferAmountControl?.value).replace(/\D/g, '');
+
+    const numericValue = +unmaskedValue / 100;
+
+    transferAmountControl?.setValue(numericValue);
+
+    this.submit();
   }
 
   submit() {
@@ -62,7 +94,6 @@ export class ScheduleFrontendComponent implements OnInit {
     }
 
   }
-
 
   navigateToTableComponent() {
     this.router.navigate(['table']);
