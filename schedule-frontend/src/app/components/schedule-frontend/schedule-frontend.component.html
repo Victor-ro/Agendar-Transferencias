@@ -64,6 +64,13 @@
             >
               Deve conter apenas números.
             </div>
+            <div
+            *ngIf="
+              submitted && scheduleForm.controls.originAccount.errors.notEqual
+            "
+          >
+            As contas origem e destino não podem ser iguais.
+          </div>
           </div>
         </div>
         <div class="col-6">
@@ -107,6 +114,13 @@
             >
               Deve conter apenas números.
             </div>
+            <div
+            *ngIf="
+              submitted && scheduleForm.controls.destinationAccount.errors.notEqual
+            "
+          >
+            As contas origem e destino não podem ser iguais.
+          </div>
           </div>
         </div>
         <div class="col-6">
@@ -140,7 +154,7 @@
               scheduleForm.controls.transferAmount.errors.min
             "
           >
-            O valor da transferência não pode ser zero
+            O valor de transferência mínimo é de $20 por conta das taxas
           </div>
           </div>
         </div>

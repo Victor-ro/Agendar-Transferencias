@@ -2,8 +2,7 @@ import { ScheduledTransfer } from '../../models/scheduled-transfer';
 import { ScheduleBackendService } from './../../shared/services/schedule-backend.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { Observable } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -53,11 +52,24 @@ export class ScheduleFrontendComponent implements OnInit {
     return null;
   }
 
+  notEqualValidator(otherControlName: string): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const otherControl = control.root.get(otherControlName);
+
+      if (otherControl && control.value === otherControl.value) {
+        return { notEqual: true };
+      }
+
+      return null;
+    };
+  }
+
+
   createForm() {
     this.scheduleForm = this.fb.group({
-      originAccount: ['', [Validators.required, this.accountValidatorNumbers, Validators.pattern(/^[0-9]+$/)]],
-      destinationAccount: ['', [Validators.required, this.accountValidatorNumbers, Validators.pattern(/^[0-9]+$/)]],
-      transferAmount: ['', [Validators.required, Validators.min(0.000001)]],
+      originAccount: ['', [Validators.required, this.accountValidatorNumbers, Validators.pattern(/^[0-9]+$/), this.notEqualValidator('destinationAccount')]],
+      destinationAccount: ['', [Validators.required, this.accountValidatorNumbers, Validators.pattern(/^[0-9]+$/), this.notEqualValidator('originAccount')]],
+      transferAmount: ['', [Validators.required, Validators.min(20)]],
       transferDate: ['', [Validators.required, this.dateValidator]],
     });
   }
