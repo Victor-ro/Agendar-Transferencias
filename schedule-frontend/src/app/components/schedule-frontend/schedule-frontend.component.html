@@ -1,1 +1,85 @@
-<p>schedule-frontend works!</p>
+<head>
+  <meta charset="UTF-8" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+    crossorigin="anonymous"
+  />
+  <title>Criar agendamento</title>
+</head>
+
+<body>
+  <form (ngSubmit)="submit()" [formGroup]="scheduleForm" #formDir="ngForm">
+    <div class="container p-5">
+      <div class="row mb-3 g-4">
+        <div class="col-6">
+          <label class="form-label">Conta de origem</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="originAccount"
+            placeholder="Formato XXXXXX"
+          />
+        </div>
+        <div class="col-6">
+          <label class="form-label">Conta de destino</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="destinationAccount"
+            placeholder="Formato XXXXXX"
+          />
+        </div>
+        <div class="col-6">
+          <label class="form-label">Valor da transferência</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="transferAmount"
+            placeholder="Ex: 1000"
+          />
+        </div>
+        <div class="col-6">
+          <label class="form-label"> Data da transferência</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="transferDate"
+          />
+        </div>
+      </div>
+      <button
+        type="submit"
+        [disabled]="scheduleForm.invalid"
+        class="btn btn-primary"
+      >
+        Cadastrar agendamento
+      </button>
+    </div>
+  </form>
+
+  <table>
+    <thead>
+      <th>id</th>
+      <th>Conta origem</th>
+      <th>Conta destino</th>
+      <th>Valor da transferência</th>
+      <th>Taxa</th>
+      <th>Data da transferência</th>
+      <th>Data do agendamento</th>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let transfer of transfers$ | async">
+        <td>{{ transfer.id }}</td>
+        <td>{{ transfer.originAccount }}</td>
+        <td>{{ transfer.destinationAccount }}</td>
+        <td>{{ transfer.transferAmount }}</td>
+        <td>{{ transfer.fee }}</td>
+        <td>{{ transfer.transferDate }}</td>
+        <td>{{ transfer.scheduledDate }}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
