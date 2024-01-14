@@ -38,17 +38,12 @@
             </div>
             <div
               *ngIf="
-                submitted && scheduleForm.controls.originAccount.errors.min
+                submitted &&
+                scheduleForm.get('originAccount')?.hasError('invalidAccount')
               "
             >
-              Insira exatamente 6 caracteres
-            </div>
-            <div
-              *ngIf="
-                submitted && scheduleForm.controls.originAccount.errors.max
-              "
-            >
-              Insira exatamente 6 caracteres
+              Insira exatamente 6 caracteres de 1 a 9 ( Zeros à esquerda são
+              ignorados )
             </div>
           </div>
         </div>
@@ -78,17 +73,14 @@
             </div>
             <div
               *ngIf="
-                submitted && scheduleForm.controls.destinationAccount.errors.min
+                submitted &&
+                scheduleForm
+                  .get('destinationAccount')
+                  ?.hasError('invalidAccount')
               "
             >
-              Insira exatamente 6 caracteres
-            </div>
-            <div
-              *ngIf="
-                submitted && scheduleForm.controls.destinationAccount.errors.max
-              "
-            >
-              Insira exatamente 6 caracteres
+              Insira exatamente 6 caracteres de 1 a 9 ( Zeros à esquerda são
+              ignorados )
             </div>
           </div>
         </div>

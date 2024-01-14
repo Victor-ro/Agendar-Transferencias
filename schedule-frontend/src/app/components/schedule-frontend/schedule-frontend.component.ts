@@ -3,7 +3,7 @@ import { ScheduleBackendService } from './../../shared/services/schedule-backend
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -33,13 +33,21 @@ export class ScheduleFrontendComponent implements OnInit {
     this.currentDate = new Date();
   }
 
+  accountValidatorNumbers(control: FormControl) {
+    const value = control.value;
+
+    const isValidFormat = /^0*[0-9]{6}$/.test(value);
+
+    return isValidFormat ? null : { invalidAccount: true };
+  }
+
   createForm() {
     this.scheduleForm = this.fb.group({
-      originAccount: ['', [Validators.required, Validators.min(100000), Validators.max(999999)]],
-      destinationAccount: ['', [Validators.required, Validators.min(100000), Validators.max(999999)]],
+      originAccount: ['', [Validators.required, this.accountValidatorNumbers]],
+      destinationAccount: ['', [Validators.required, this.accountValidatorNumbers]],
       transferAmount: ['', [Validators.required]],
       transferDate: ['', [Validators.required]],
-    })
+    });
   }
 
   getTransfers() {
@@ -54,6 +62,7 @@ export class ScheduleFrontendComponent implements OnInit {
     } else {
       this.scheduleBackendService.sendScheduleTransfer(this.scheduleForm.value).subscribe();
       alert("Agendamento cadastrado!")
+      this.submitted = false;
       this.scheduleForm.reset();
     }
 
