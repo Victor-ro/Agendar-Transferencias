@@ -44,8 +44,8 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
     @Override
     public BigDecimal feeCalculationC(FinancialTransfer financialTransfer) {
 
-        LocalDate transferDate = financialTransfer.getTransferDate().toLocalDate();
-        LocalDate scheduledDate = financialTransfer.getScheduledDate().toLocalDate();
+        LocalDate transferDate = financialTransfer.getTransferDate();
+        LocalDate scheduledDate = financialTransfer.getScheduledDate();
 
         long daysDifference = DAYS.between(scheduledDate, transferDate);
 
@@ -82,8 +82,8 @@ public class FeeCalculateServiceImpl implements FeeCalculateService {
     @Override
     public BigDecimal feeCalculationByDate(FinancialTransfer financialTransfer) {
 
-        LocalDate transferDate = financialTransfer.getTransferDate().toLocalDate();
-        LocalDate scheduledDate = financialTransfer.getScheduledDate().toLocalDate();
+        LocalDate transferDate = financialTransfer.getTransferDate();
+        LocalDate scheduledDate = financialTransfer.getScheduledDate();
 
         if (transferDate.isEqual(scheduledDate)) {
             return feeCalculationA(financialTransfer);

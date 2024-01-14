@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity(name = "financial_transfer")
 @Table(name = "financial_transfer")
@@ -28,9 +28,9 @@ public class FinancialTransfer {
 
     private BigDecimal fee;
 
-    private LocalDateTime transferDate;
+    private LocalDate transferDate;
 
-    private LocalDateTime scheduledDate;
+    private LocalDate scheduledDate;
 
     public FinancialTransfer(FinancialTransferDTO financialTransferDTO) {
         this.originAccount = financialTransferDTO.originAccount();
@@ -38,7 +38,7 @@ public class FinancialTransfer {
         this.transferAmount = financialTransferDTO.transferAmount();
         this.fee = financialTransferDTO.fee();
         this.transferDate = financialTransferDTO.transferDate();
-        this.scheduledDate = LocalDateTime.now();
+        this.scheduledDate = LocalDate.now();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.schedulebackend.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record FinancialTransferDTO(
@@ -11,7 +12,7 @@ public record FinancialTransferDTO(
 
         BigDecimal transferAmount,
 
-        LocalDateTime transferDate,
+        LocalDate transferDate,
 
         BigDecimal fee,
 
