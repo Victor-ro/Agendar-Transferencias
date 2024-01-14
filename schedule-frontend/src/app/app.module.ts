@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ScheduleTableComponent } from './components/schedule-table/schedule-table.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ScheduleTableComponent
   ],
   imports: [
     BrowserModule,

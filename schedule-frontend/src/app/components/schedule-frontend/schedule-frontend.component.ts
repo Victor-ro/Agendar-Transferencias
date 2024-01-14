@@ -5,6 +5,7 @@ import { CommonModule } from "@angular/common";
 import { Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-schedule-frontend',
@@ -15,7 +16,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class ScheduleFrontendComponent implements OnInit {
 
-  transfers$ = new Observable<ScheduledTransfer[]>();
 
   currentDate: Date;
 
@@ -26,10 +26,9 @@ export class ScheduleFrontendComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.getTransfers();
   }
 
-  constructor(private scheduleBackendService: ScheduleBackendService, private fb: FormBuilder) {
+  constructor(private scheduleBackendService: ScheduleBackendService, private fb: FormBuilder, private router: Router) {
     this.currentDate = new Date();
   }
 
@@ -50,10 +49,6 @@ export class ScheduleFrontendComponent implements OnInit {
     });
   }
 
-  getTransfers() {
-    this.transfers$ = this.scheduleBackendService.getScheduledTransfers();
-  }
-
   submit() {
     this.submitted = true;
 
@@ -68,5 +63,9 @@ export class ScheduleFrontendComponent implements OnInit {
 
   }
 
+
+  navigateToTableComponent() {
+    this.router.navigate(['table']);
+  }
 
 }

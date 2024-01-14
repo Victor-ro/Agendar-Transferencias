@@ -12,6 +12,18 @@
 <body>
   <form (ngSubmit)="submit()" [formGroup]="scheduleForm" #formDir="ngForm">
     <div class="container p-5">
+      <div class="d-flex justify-content-between">
+        <h4 class="display-6">Agendar uma nova transferência</h4>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="navigateToTableComponent()"
+        >
+          Visualizar agendamentos cadastrados
+        </button>
+      </div>
+      <hr />
+
       <div class="row mb-3 g-4">
         <div class="col-6">
           <label class="form-label">Conta de origem</label>
@@ -136,33 +148,9 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-success">
         Cadastrar agendamento
       </button>
     </div>
   </form>
-
-  <table>
-    <thead>
-      <th>id</th>
-      <th>Conta origem</th>
-      <th>Conta destino</th>
-      <th>Valor da transferência</th>
-      <th>Taxa</th>
-      <th>Data da transferência</th>
-      <th>Data do agendamento</th>
-    </thead>
-
-    <tbody>
-      <tr *ngFor="let transfer of transfers$ | async">
-        <td>{{ transfer.id }}</td>
-        <td>{{ transfer.originAccount }}</td>
-        <td>{{ transfer.destinationAccount }}</td>
-        <td>{{ transfer.transferAmount }}</td>
-        <td>{{ transfer.fee }}</td>
-        <td>{{ transfer.transferDate }}</td>
-        <td>{{ transfer.scheduledDate }}</td>
-      </tr>
-    </tbody>
-  </table>
 </body>
