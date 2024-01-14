@@ -19,8 +19,38 @@
             type="number"
             class="form-control"
             formControlName="originAccount"
+            [ngClass]="{
+              'is-invalid':
+                submitted && scheduleForm.controls.originAccount.errors
+            }"
             placeholder="Formato XXXXXX"
           />
+          <div
+            *ngIf="submitted && scheduleForm.controls.originAccount.errors"
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.originAccount.errors.required
+              "
+            >
+              A conta de origem é obrigatória
+            </div>
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.originAccount.errors.min
+              "
+            >
+              Insira exatamente 6 caracteres
+            </div>
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.originAccount.errors.max
+              "
+            >
+              Insira exatamente 6 caracteres
+            </div>
+          </div>
         </div>
         <div class="col-6">
           <label class="form-label">Conta de destino</label>
@@ -28,8 +58,39 @@
             type="number"
             class="form-control"
             formControlName="destinationAccount"
+            [ngClass]="{
+              'is-invalid':
+                submitted && scheduleForm.controls.destinationAccount.errors
+            }"
             placeholder="Formato XXXXXX"
           />
+          <div
+            *ngIf="submitted && scheduleForm.controls.destinationAccount.errors"
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                submitted &&
+                scheduleForm.controls.destinationAccount.errors.required
+              "
+            >
+              A conta de destino é obrigatória
+            </div>
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.destinationAccount.errors.min
+              "
+            >
+              Insira exatamente 6 caracteres
+            </div>
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.destinationAccount.errors.max
+              "
+            >
+              Insira exatamente 6 caracteres
+            </div>
+          </div>
         </div>
         <div class="col-6">
           <label class="form-label">Valor da transferência</label>
@@ -37,8 +98,25 @@
             type="number"
             class="form-control"
             formControlName="transferAmount"
+            [ngClass]="{
+              'is-invalid':
+                submitted && scheduleForm.controls.transferAmount.errors
+            }"
             placeholder="Ex: 1000"
           />
+          <div
+            *ngIf="submitted && scheduleForm.controls.transferAmount.errors"
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                submitted &&
+                scheduleForm.controls.transferAmount.errors.required
+              "
+            >
+              O valor da transferência é obrigatório
+            </div>
+          </div>
         </div>
         <div class="col-6">
           <label class="form-label"> Data da transferência</label>
@@ -46,14 +124,27 @@
             type="date"
             class="form-control"
             formControlName="transferDate"
+            [ngClass]="{
+              'is-invalid':
+                submitted && scheduleForm.controls.transferDate.errors
+            }"
+            [min]="currentDate.toISOString().split('T')[0]"
           />
+          <div
+            *ngIf="submitted && scheduleForm.controls.transferDate.errors"
+            class="text-danger"
+          >
+            <div
+              *ngIf="
+                submitted && scheduleForm.controls.transferDate.errors.required
+              "
+            >
+              A data de transferência é obrigatória
+            </div>
+          </div>
         </div>
       </div>
-      <button
-        type="submit"
-        [disabled]="scheduleForm.invalid"
-        class="btn btn-primary"
-      >
+      <button type="submit" class="btn btn-primary">
         Cadastrar agendamento
       </button>
     </div>

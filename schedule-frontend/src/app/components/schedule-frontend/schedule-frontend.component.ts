@@ -17,7 +17,11 @@ export class ScheduleFrontendComponent implements OnInit {
 
   transfers$ = new Observable<ScheduledTransfer[]>();
 
+  currentDate: Date;
+
   scheduleForm!: FormGroup;
+
+  submitted = false;
 
 
   ngOnInit(): void {
@@ -26,12 +30,13 @@ export class ScheduleFrontendComponent implements OnInit {
   }
 
   constructor(private scheduleBackendService: ScheduleBackendService, private fb: FormBuilder) {
+    this.currentDate = new Date();
   }
 
   createForm() {
     this.scheduleForm = this.fb.group({
-      originAccount: ['', [Validators.required]],
-      destinationAccount: ['', [Validators.required]],
+      originAccount: ['', [Validators.required, Validators.min(100000), Validators.max(999999)]],
+      destinationAccount: ['', [Validators.required, Validators.min(100000), Validators.max(999999)]],
       transferAmount: ['', [Validators.required]],
       transferDate: ['', [Validators.required]],
     })
@@ -42,8 +47,13 @@ export class ScheduleFrontendComponent implements OnInit {
   }
 
   submit() {
-    if (this.scheduleForm.valid) {
+    this.submitted = true;
+
+    if (this.scheduleForm.invalid) {
+      return
+    } else {
       this.scheduleBackendService.sendScheduleTransfer(this.scheduleForm.value).subscribe();
+      alert("Agendamento cadastrado!")
       this.scheduleForm.reset();
     }
 
