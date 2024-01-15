@@ -45,11 +45,25 @@ export class ScheduleFrontendComponent implements OnInit {
 
     selectedDate.setDate(selectedDate.getDate() + 1);
 
-    if (selectedDate < currentDate) {
+    const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+    const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+    if (selectedDateOnly < currentDateOnly) {
       return { 'invalidDate': true };
     }
 
     return null;
+  }
+
+  getMinDate(): string {
+    const currentDate = new Date();
+    const brazilTimeZoneOffset = +3;
+
+    currentDate.setUTCHours(currentDate.getUTCHours() - brazilTimeZoneOffset);
+
+    const formattedDate = currentDate.toISOString().split('T')[0];
+
+    return formattedDate;
   }
 
   notEqualValidator(otherControlName: string): ValidatorFn {
