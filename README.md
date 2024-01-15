@@ -86,8 +86,14 @@ No front-end, adotei a *Arquitetura baseada em componentes*, seguindo o padrão 
 Buscar todas as transferências:
     
 http://localhost:8080/financial-transfer
- 
 
+## Melhorias futuras
+ 
+- Testes unitários;
+- Sistema de login;
+- Criar usuários com contas bancárias;
+- Checagem de saldo bancário;
+- Swagger.
 
 
 
