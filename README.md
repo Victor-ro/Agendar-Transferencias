@@ -87,6 +87,20 @@ Buscar todas as transferências:
     
 http://localhost:8080/financial-transfer
 
+## Validações front-end
+
+- Todos os campos obrigatórios (Origem, destino, valor, data);
+- Contas com caracteres exatos;
+- Contas origem e destino, não podem ser iguais;
+- Apenas números nos campos indicados;
+- Valor de transferência mínimo de $20;
+- Data de transferência não pode ser anterior à data atual.
+
+## Observações
+
+- Implementei valores em dólar por conta dos números apresentados na descrição do teste;
+- Implementei a estrutura de taxas com base em critérios de datas e valores específicos.
+
 ## Melhorias futuras
  
 - Testes unitários;
@@ -94,7 +108,5 @@ http://localhost:8080/financial-transfer
 - Criar usuários com contas bancárias;
 - Checagem de saldo bancário;
 - Swagger.
-
-
 
  
